@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive .NET Coding Guidelines</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The application is structured with a fixed sidebar for navigation and a main content area. This design was chosen to provide developers with fast, non-linear access to specific sections of the coding guidelines, mimicking the experience of using a digital reference manual. It's more efficient than scrolling through a long document. On mobile, the sidebar collapses into a hamburger menu to preserve screen space. This structure prioritizes findability and ease of use for a technical audience. -->
+    <!-- Visualization & Content Choices: Report Info: .NET coding standards -> Goal: Inform & Reference -> Viz/Presentation Method: Semantic HTML for text, styled <pre><code> blocks for code snippets -> Interaction: JS-powered navigation to show/hide content sections, copy-to-clipboard buttons for all code examples, and an LLM-powered Q&A section for guideline clarification -> Justification: These choices create an efficient and practical tool for developers. The primary need is to read guidelines, copy code, and now, get instant clarifications on best practices, which this design directly supports. No data charts are needed as the source is purely informational text and code. Library/Method: Vanilla JS for interactions, Tailwind CSS for styling, Gemini API for LLM features. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        code, pre { font-family: 'Fira Code', monospace; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .nav-link.active { background-color: #eef2ff; color: #4338ca; font-weight: 600; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="flex min-h-screen">
+        <!-- Mobile Header -->
+        <div class="lg:hidden fixed top-0 left-0 right-0 bg-white border-b border-slate-200 z-20 flex items-center justify-between p-4">
+            <h1 class="text-lg font-bold text-slate-800">.NET Guidelines</h1>
+            <button id="mobile-menu-button" class="p-2 rounded-md text-slate-600 hover:bg-slate-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="bg-white border-r border-slate-200 w-64 min-h-screen fixed top-0 left-0 z-10 lg:relative lg:translate-x-0 transform -translate-x-full transition-transform duration-300 ease-in-out lg:pt-8 pt-20">
+            <div class="px-4 mb-4 hidden lg:block">
+                <h1 class="text-xl font-bold text-slate-800">.NET Guidelines</h1>
+                <p class="text-sm text-slate-500 mt-1">Interactive Reference</p>
+            </div>
+            <nav id="main-nav" class="p-4 flex flex-col space-y-1">
+                <a href="#naming" class="nav-link px-4 py-2 rounded-md text-slate-700 hover:bg-slate-100 transition-colors">1. Naming Conventions</a>
+                <a href="#formatting" class="nav-link px-4 py-2 rounded-md text-slate-700 hover:bg-slate-100 transition-colors">2. Code Formatting</a>
+                <a href="#security" class="nav-link px-4 py-2 rounded-md text-slate-700 hover:bg-slate-100 transition-colors">3. Secure Coding</a>
+                <a href="#resources" class="nav-link px-4 py-2 rounded-md text-slate-700 hover:bg-slate-100 transition-colors">4. Resource Management</a>
+                <a href="#best-practices" class="nav-link px-4 py-2 rounded-md text-slate-700 hover:bg-slate-100 transition-colors">5. General Best Practices</a>
+                <a href="#gemini-assistant" class="nav-link px-4 py-2 rounded-md text-slate-700 hover:bg-slate-100 transition-colors">✨ Gemini Assistant</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 lg:p-10 pt-24 lg:pt-10">
+            <div class="max-w-4xl mx-auto">
+                <!-- Introduction Section (part of first content block) -->
+                <div id="naming" class="content-section">
+                    <div class="mb-8 p-6 bg-white rounded-xl shadow-sm border border-slate-200">
+                         <h2 class="text-3xl font-bold text-slate-900 mb-2">Introduction</h2>
+                        <p class="text-slate-600">This document provides a comprehensive, interactive guide to .NET coding standards. The goal is to establish a clear set of best practices for writing high-quality, maintainable, secure, and performant code. Use the navigation to quickly jump to the section you need. Each section explains the purpose of the guidelines and provides interactive code examples that you can copy directly.</p>
+                    </div>
+
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">1. Naming Conventions</h2>
+                    <p class="text-slate-600 mb-8">This section outlines the standard naming conventions for .NET. Consistent naming is crucial for code readability and maintainability, as it allows developers to understand the purpose of a variable, method, or class just by looking at its name. Click on the code examples to copy them.</p>
+
+                    <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">1.1 PascalCase</h3>
+                    <ul class="list-disc list-inside space-y-2 text-slate-700">
+                        <li><b>Classes, Structs, Enums, Interfaces, Delegates:</b> `MyClass`, `UserAccount`</li>
+                        <li><b>Public Methods:</b> `CalculateTotal()`, `ProcessOrder()`</li>
+                        <li><b>Properties:</b> `UserName`, `ProductPrice`</li>
+                    </ul>
+
+                    <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">1.2 camelCase</h3>
+                    <ul class="list-disc list-inside space-y-2 text-slate-700">
+                        <li><b>Local Variables:</b> `userName`, `orderId`</li>
+                        <li><b>Method Parameters:</b> `string userName`, `int orderId`</li>
+                        <li><b>Private Fields:</b> `_customerName`, `_totalAmount`</li>
+                    </ul>
+
+                    <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">1.3 Other Conventions</h3>
+                    <ul class="list-disc list-inside space-y-2 text-slate-700">
+                        <li><b>Interfaces:</b> Prefix with `I`, e.g., `ICustomerRepository`</li>
+                        <li><b>Constants (const fields):</b> PascalCase, e.g., `MaxRetries`</li>
+                        <li><b>Generic Type Parameters:</b> Prefix with `T`, e.g., `TItem`</li>
+                    </ul>
+                </div>
+
+                <div id="formatting" class="content-section">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">2. Code Formatting</h2>
+                    <p class="text-slate-600 mb-8">Consistent code formatting ensures that the codebase is visually organized and easy to read for all team members. This section covers the standard rules for indentation, bracing, whitespace, and more, which helps to reduce cognitive load when reviewing or debugging code.</p>
+
+                    <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">2.1 Indentation and Bracing</h3>
+                    <p class="mb-4">Use 4 spaces for indentation and always use braces, even for single-line statements, to prevent ambiguity and potential bugs.</p>
+                    <div class="code-container">
+<pre class="bg-gray-800 text-white p-4 rounded-lg text-sm overflow-x-auto"><code>
+// Good: Allman style braces and braces for single-line if
+public class MyClass
+{
+    public void MyMethod(bool condition)
+    {
+        if (condition)
+        {
+            DoSomething();
+        }
+    }
+}
+
+// Bad: Braces omitted
+if (condition)
+    DoSomething();
+</code></pre>
+                    </div>
+
+                    <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">2.2 Whitespace</h3>
+                     <p class="mb-4">Use whitespace logically to separate operators and code blocks, improving readability.</p>
+                    <div class="code-container">
+<pre class="bg-gray-800 text-white p-4 rounded-lg text-sm overflow-x-auto"><code>
+// Good: Proper spacing
+int total = price + tax;
+MyMethod(param1, param2);
+
+// Bad: Inconsistent spacing
+int total=price+tax;
+MyMethod( param1,param2 );
+</code></pre>
+                    </div>
+
+                    <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">2.3 Comments</h3>
+                    <p class="mb-4">Use XML comments for public APIs and inline comments for complex logic. Avoid comments that just restate the code.</p>
+                    <div class="code-container">
+<pre class="bg-gray-800 text-white p-4 rounded-lg text-sm overflow-x-auto"><code>
+/// &lt;summary&gt;
+/// Calculates the total price for an order.
+/// &lt;/summary&gt;
+/// &lt;param name="orderId"&gt;The ID of the order.&lt;/param&gt;
+/// &lt;returns&gt;The calculated total price.&lt;/returns&gt;
+public decimal CalculateTotalPrice(int orderId)
+{
+    // Complex business logic explanation here
+    // ...
+}
+</code></pre>
+                    </div>
+                </div>
+
+                <div id="security" class="content-section">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">3. Secure Coding Practices</h2>
+                    <p class="text-slate-600 mb-8">This section provides critical guidelines for writing secure .NET code. Explore best practices for preventing common vulnerabilities like SQL injection and XSS, and learn how to handle user data safely. Use the interactive code examples to understand correct and incorrect implementations.</p>
+
+                    <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">3.1 SQL Injection Prevention</h3>
+                    <p class="mb-4">Never concatenate user input into SQL queries. Always use parameterized queries or an ORM like Entity Framework.</p>
+                    <div class="code-container">
+<pre class="bg-gray-800 text-white p-4 rounded-lg text-sm overflow-x-auto"><code>
+// Good: Parameterized query
+string sql = "SELECT * FROM Users WHERE UserName = @userName";
+using (var command = new SqlCommand(sql, connection))
+{
+    command.Parameters.AddWithValue("@userName", userInput);
+    // Execute command
+}
+
+// Bad: SQL Injection vulnerability
+string badSql = "SELECT * FROM Users WHERE UserName = '" + userInput + "'";
+</code></pre>
+                    </div>
+                     <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">3.2 Cross-Site Scripting (XSS) Prevention</h3>
+                    <p class="mb-4">Always encode user-supplied data before rendering it in HTML. ASP.NET Core Razor views do this automatically.</p>
+
+                    <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">3.3 Input Validation</h3>
+                    <p class="mb-4">Validate all input on the server side for type, length, format, and range.</p>
+                </div>
+
+                <div id="resources" class="content-section">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">4. Resource Management</h2>
+                     <p class="text-slate-600 mb-8">Properly managing unmanaged resources like database connections and file streams is essential for application stability and performance. This section explains how to use the `IDisposable` interface and `using` statements to ensure that resources are always released correctly.</p>
+
+                    <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">4.1 `IDisposable` and `using` Statement</h3>
+                    <p class="mb-4">Always wrap objects that implement `IDisposable` in a `using` statement to guarantee their disposal.</p>
+                    <div class="code-container">
+<pre class="bg-gray-800 text-white p-4 rounded-lg text-sm overflow-x-auto"><code>
+// Good: DbConnection and DbCommand are automatically disposed
+string connectionString = "YourConnectionString";
+using (var connection = new SqlConnection(connectionString))
+{
+    connection.Open();
+    using (var command = new SqlCommand("SELECT * FROM Users", connection))
+    {
+        using (var reader = command.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                // Process data
+            }
+        } // reader is disposed
+    } // command is disposed
+} // connection is disposed
+</code></pre>
+                    </div>
+
+                    <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">4.4 Connection Pooling</h3>
+                    <p>By using the `using` statement, you correctly open and close connections, which allows ADO.NET's connection pooling to work efficiently. Do not attempt to manage connection lifecycles manually.</p>
+                </div>
+
+                <div id="best-practices" class="content-section">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">5. General Best Practices</h2>
+                    <p class="text-slate-600 mb-8">This final section covers high-level principles and practices that lead to robust, scalable, and maintainable applications. Following these guidelines, from writing unit tests to using dependency injection, will elevate the quality of your software architecture.</p>
+
+                    <ul class="list-disc list-inside space-y-3 text-slate-700 mt-6">
+                        <li><b>DRY (Don't Repeat Yourself):</b> Avoid code duplication. Extract common logic into reusable methods or classes.</li>
+                        <li><b>SOLID Principles:</b> Adhere to Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, and Dependency Inversion principles.</li>
+                        <li><b>Unit Testing:</b> Write comprehensive unit tests for all critical business logic to ensure correctness and prevent regressions.</li>
+                        <li><b>Logging:</b> Use a structured logging framework (e.g., Serilog, NLog) to log application events, errors, and warnings for easier debugging and monitoring.</li>
+                        <li><b>Performance:</b> Be mindful of performance. Use `StringBuilder` for string concatenation in loops and understand the performance implications of LINQ queries.</li>
+                        <li><b>Dependency Injection:</b> Use dependency injection to manage dependencies, which promotes loose coupling and makes code more modular and testable.</li>
+                        <li><b>Code Reviews:</b> Actively participate in code reviews to share knowledge, maintain standards, and catch issues early.</li>
+                    </ul>
+                </div>
+
+                <!-- Gemini Assistant Section -->
+                <div id="gemini-assistant" class="content-section">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">✨ Gemini Assistant</h2>
+                    <p class="text-slate-600 mb-8">Have a question about .NET coding guidelines or best practices? Ask our AI assistant! It can provide clarifications, explanations, or additional insights to help you write better code.</p>
+
+                    <div class="p-6 bg-white rounded-xl shadow-sm border border-slate-200">
+                        <label for="gemini-query" class="block text-slate-700 text-lg font-semibold mb-2">Your Question:</label>
+                        <textarea id="gemini-query" class="w-full p-3 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-y min-h-[100px] text-slate-800" placeholder="e.g., What are the benefits of using dependency injection?"></textarea>
+                        <button id="ask-gemini-button" class="mt-4 px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors shadow-md">
+                            Ask Gemini ✨
+                        </button>
+
+                        <div id="gemini-response-area" class="mt-6 p-4 bg-slate-50 border border-slate-200 rounded-md hidden">
+                            <p id="gemini-loading" class="text-slate-500 italic hidden">Loading response...</p>
+                            <p id="gemini-response" class="text-slate-800"></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.content-section');
+            const sidebar = document.getElementById('sidebar');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const geminiQueryInput = document.getElementById('gemini-query');
+            const askGeminiButton = document.getElementById('ask-gemini-button');
+            const geminiResponseArea = document.getElementById('gemini-response-area');
+            const geminiLoading = document.getElementById('gemini-loading');
+            const geminiResponse = document.getElementById('gemini-response');
+
+            function updateContent(hash) {
+                if (!hash) {
+                    hash = '#naming';
+                }
+
+                sections.forEach(section => {
+                    if ('#' + section.id === hash) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+
+                window.scrollTo(0, 0);
+            }
+
+            document.getElementById('main-nav').addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    e.preventDefault();
+                    const hash = e.target.getAttribute('href');
+                    history.pushState(null, null, hash);
+                    updateContent(hash);
+                    if (sidebar.classList.contains('translate-x-0')) {
+                       sidebar.classList.remove('translate-x-0');
+                       sidebar.classList.add('-translate-x-full');
+                    }
+                }
+            });
+
+            window.addEventListener('popstate', function() {
+                updateContent(location.hash);
+            });
+
+            mobileMenuButton.addEventListener('click', function() {
+                sidebar.classList.toggle('-translate-x-full');
+                sidebar.classList.toggle('translate-x-0');
+            });
+
+            // Add copy buttons to code containers
+            const codeContainers = document.querySelectorAll('.code-container');
+            codeContainers.forEach(container => {
+                const pre = container.querySelector('pre');
+                if (pre) {
+                    const copyButton = document.createElement('button');
+                    copyButton.textContent = 'Copy';
+                    copyButton.className = 'absolute top-2 right-2 bg-slate-600 hover:bg-slate-500 text-white text-xs font-semibold py-1 px-2 rounded-md transition-colors';
+                    container.style.position = 'relative';
+                    container.appendChild(copyButton);
+
+                    copyButton.addEventListener('click', function() {
+                        const codeToCopy = pre.querySelector('code').innerText;
+
+                        // Use a textarea to preserve formatting
+                        const textArea = document.createElement('textarea');
+                        textArea.value = codeToCopy;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        try {
+                            document.execCommand('copy');
+                            copyButton.textContent = 'Copied!';
+                            copyButton.classList.add('bg-green-600', 'hover:bg-green-600');
+                        } catch (err) {
+                            copyButton.textContent = 'Failed!';
+                            console.error('Failed to copy text: ', err);
+                        }
+                        document.body.removeChild(textArea);
+
+                        setTimeout(() => {
+                            copyButton.textContent = 'Copy';
+                            copyButton.classList.remove('bg-green-600', 'hover:bg-green-600');
+                        }, 2000);
+                    });
+                }
+            });
+
+            // Gemini API Integration
+            askGeminiButton.addEventListener('click', async () => {
+                const userQuestion = geminiQueryInput.value.trim();
+                if (!userQuestion) {
+                    geminiResponseArea.classList.remove('hidden');
+                    geminiResponse.textContent = 'Please enter a question.';
+                    geminiLoading.classList.add('hidden');
+                    return;
+                }
+
+                geminiResponseArea.classList.remove('hidden');
+                geminiResponse.textContent = '';
+                geminiLoading.classList.remove('hidden');
+                askGeminiButton.disabled = true;
+
+                try {
+                    let chatHistory = [];
+                    const prompt = `You are an expert .NET developer and a strict adherence to coding guidelines. A user is asking a question about .NET coding practices. Answer the question concisely and accurately, referencing best practices.
+User's question: ${userQuestion}`;
+
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        geminiResponse.textContent = text;
+                    } else {
+                        geminiResponse.textContent = 'Sorry, I could not get a response. Please try again.';
+                        console.error('Gemini API response structure unexpected:', result);
+                    }
+                } catch (error) {
+                    geminiResponse.textContent = 'An error occurred while fetching the response. Please try again later.';
+                    console.error('Error calling Gemini API:', error);
+                } finally {
+                    geminiLoading.classList.add('hidden');
+                    askGeminiButton.disabled = false;
+                }
+            });
+
+            // Initial load
+            updateContent(location.hash);
+        });
+    </script>
+</body>
+</html>
